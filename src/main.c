@@ -5,28 +5,28 @@
 #include <limits.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-#include "builtins.h"
-#include "input.h"
+
+#include "include/builtins.h"
+#include "include/input.h"
 
 #define USER getenv("USER")
 #define HOST getenv("HOSTNAME")
 #define HOME getenv("HOME")
 
-#define LINE_SIZE 1024
+#define BUFF_SIZE 1024
 #define TOK_BUF 64 
 #define DELIM " \t \r \n" 
 
 char *get_cur_dir();
 int s_exec(char **args);
 char **parse(char *input);
-int redirect_file(char **input);
-char trcat_ps1(char *cwd);
+///char trcat_ps1(char *cwd);
 
 int main(void) {
 	//raw_mode();
+	char *h_f = ".nutsh_hist";
 	char cwd[PATH_MAX];
-
-	char cmd[LINE_SIZE];
+	char cmd[BUFF_SIZE];
 	char *cbuf = malloc(sizeof(cmd));
 
 	int running = 1;
@@ -42,12 +42,12 @@ int main(void) {
 			break;
 		}
 		if(cbuf == NULL) continue; 
-                m_save_cmd(args); 
+                m_save_cmd(args, h_f); 
 		free(args);
 
 	}
 	free(cbuf);
-        free_hist(); 
+        free_hist(h_f); 
 	return 0;
 }
 
@@ -122,7 +122,7 @@ int exec_builtin(char **args) {
 	return s_exec(args);
 }
 
-char trcat_ps1(char *cwd) {
+/*char trcat_ps1(char *cwd) {
         char c = cwd;
         return c;
-}
+}*/

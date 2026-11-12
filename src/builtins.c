@@ -4,7 +4,7 @@
 #include <fcntl.h>
 #include <string.h>
 #include <termios.h>
-#include "builtins.h"
+#include "include/builtins.h"
 
 History_buf h_buf;
 
@@ -108,7 +108,7 @@ int b_help(char **args) {
 	return 0;
 }
 
-int m_save_cmd(char **args) {
+int m_save_cmd(char **args, char *fn) {
         if(args == NULL) {
                 return -1;
         } 
@@ -124,7 +124,7 @@ int m_save_cmd(char **args) {
 	return 1;
 }
 
-void free_hist() {
+void free_hist(char *fn) {
 	for(int i = 0; i < h_buf.hist_count; i++) {
                 free(h_buf.history[i]);
                 h_buf.history[i] = NULL;
